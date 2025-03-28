@@ -1,56 +1,97 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import "./CheckSpendScore.css";
 
-function CheckSpendScore({score, setScore}){
-    const [file, setFile]=useState(null);
-    const [alert , setAlert]=useState('');
+function CheckSpendScore({score, setScore, setSplitup}) {
+    const [file, setFile] = useState(null);
+    const [alert, setAlert] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [fileName, setFileName] = useState('');
 
-    function handleChange(e){
-        setFile(e.target.files[0]);
+    function handleChange(e) {
+        const selectedFile = e.target.files[0];
+        setFile(selectedFile);
+        setFileName(selectedFile?.name || '');
+        setAlert('');
     }
 
-    async function handleSubmit(e){
-
+    async function handleSubmit(e) {
         e.preventDefault();
-
-        if(!file){
-            setAlert('Select a file first');
+        if(!file) {
+            setAlert('Please select a PDF bank statement first');
             return;
         }
 
-        const formdata=new FormData();
+        setLoading(true);
+        const formdata = new FormData();
+        formdata.append('file', file);
 
-        formdata.append('file',file);
-
-        try{
-            axios.post('http://127.0.0.1:8000/predict',formdata,{
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/predictScore2', formdata, {
                 headers: {
-                  'Content-Type': 'multipart/form-data',
-                },
-              }).then((res)=>{
-                console.log(res.data);
-                setScore(res.data.ans);
-              });
-        }
-        catch(e){
-            setAlert('Failed to upload PDF');
+                    'Content-Type': 'multipart/form-data',
+                }
+            });
+            setScore(response.data.ans);
+            setSplitup(response.data.categorized_data);
+        } catch(e) {
+            setAlert('Failed to process your bank statement. Please try again.');
+        } finally {
+            setLoading(false);
         }
     }
 
     return (
-        <>
-        <h1>SpendScore</h1>
-        <h4>Get to know your spendings score based on your bank statements</h4>
-        <h5>(Your statements are completely safe with us)</h5>
-        <form onSubmit={handleSubmit}>
-        <label> Select your bank statement{"  "}<input type="file" name="file" id="statementFile" accept="application/pdf" onChange={handleChange} /></label><br /><br />
-            <button type="submit">Submit</button>
-            <br />
-            <p>{alert}</p>
-        </form>
-        </>
-    );
+        <div className="spend-score-container">
+            <div className="score-content">
+                <div className="header-section">
+                    <h1>SpendScore™ Calculator</h1>
+                    <p className="subtitle">Discover your spending habits score based on your bank statements</p>
+                </div>
 
+                <div className="info-box">
+                    <h3>How it works</h3>
+                    <ul>
+                        <li>Upload your bank statement in PDF format</li>
+                        <li>Our AI analyzes your spending patterns</li>
+                        <li>Get detailed insights about your financial behavior</li>
+                    </ul>
+                </div>
+
+                <form onSubmit={handleSubmit} className="upload-form">
+                    <div className="file-upload-container">
+                        <div className="file-input-wrapper">
+                            <input 
+                                type="file" 
+                                name="file" 
+                                id="statementFile" 
+                                accept="application/pdf" 
+                                onChange={handleChange}
+                                className="file-input"
+                            />
+                            <label htmlFor="statementFile" className="file-label">
+                                {fileName ? fileName : 'Choose PDF Statement'}
+                            </label>
+                        </div>
+                        <div className="security-note">
+                            <span className="lock-icon">🔒</span>
+                            Your statements are encrypted and secure
+                        </div>
+                    </div>
+
+                    <button 
+                        type="submit" 
+                        className={`submit-button ${loading ? 'loading' : ''}`}
+                        disabled={loading}
+                    >
+                        {loading ? 'Processing...' : 'Calculate Score'}
+                    </button>
+
+                    {alert && <div className="alert-message">{alert}</div>}
+                </form>
+            </div>
+        </div>
+    );
 }
 
 export default CheckSpendScore;

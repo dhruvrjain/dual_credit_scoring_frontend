@@ -1,0 +1,110 @@
+.score-indicator-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.score-content {
+    background: white;
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1000px;
+}
+
+.header-section {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.header-section h1 {
+    color: #1f2937;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: #6b7280;
+    font-size: 1.1rem;
+}
+
+.score-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.speedometer-container, .radar-container {
+    background: #f8fafc;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.speedometer-container h2, .radar-container h2 {
+    color: #1f2937;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.insights-section {
+    background: #f8fafc;
+    border-radius: 1rem;
+    padding: 1.5rem;
+}
+
+.insights-section h2 {
+    color: #1f2937;
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.insight-card {
+    background: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.insight-card h3 {
+    color: #4b5563;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.score-value {
+    color: #3b82f6;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .score-indicator-container {
+        padding: 1rem;
+    }
+
+    .score-content {
+        padding: 1.5rem;
+    }
+
+    .header-section h1 {
+        font-size: 2rem;
+    }
+
+    .speedometer-container, .radar-container {
+        padding: 1rem;
+    }
+}
