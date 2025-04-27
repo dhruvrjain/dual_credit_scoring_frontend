@@ -91,6 +91,10 @@
     font-weight: 600;
 }
 
+.prompt-section {
+    color: #4b5563;
+}
+
 @media (max-width: 768px) {
     .score-indicator-container {
         padding: 1rem;

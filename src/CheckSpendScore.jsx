@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import "./CheckSpendScore.css";
 
-function CheckSpendScore({score, setScore, setSplitup}) {
+function CheckSpendScore({score, setScore, setSplitup, showSpendScorePrompt, showTradScorePrompt}) {
     const [file, setFile] = useState(null);
     const [alert, setAlert] = useState('');
     const [loading, setLoading] = useState(false);
