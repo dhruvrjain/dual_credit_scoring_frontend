@@ -1,14 +1,16 @@
 import ReactSpeedometer from 'react-d3-speedometer';
+import { useNavigate } from 'react-router-dom';
 import { Radar, RadarChart, PolarGrid, 
     PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 import './ScoreIndicator.css';
 
-function ScoreIndicator({score, splitup, scoreName}) {
+function ScoreIndicator({score, splitup, scoreName, showSpendScorePrompt, showTradScorePrompt}) {
     // Transform splitup data for radar chart
     // const radarData = Object.entries(splitup).map(([category, value]) => ({
     //     category: category.charAt(0).toUpperCase() + category.slice(1),
     //     value: value
     // }));
+    const navigate = useNavigate();
 
     const getScoreCategory = (score) => {
         if (score >= 700) return ['Excellent', '#10B981'];
@@ -77,6 +79,23 @@ function ScoreIndicator({score, splitup, scoreName}) {
                         ))}
                     </div>
                 </div> */}
+
+                {(showSpendScorePrompt || showTradScorePrompt) && (
+                    <div className="prompt-section">
+                        <h2>Want a more complete picture?</h2>
+                        <p>
+                            {showSpendScorePrompt 
+                                ? "Check your SpendScore™ to understand your spending habits"
+                                : "Calculate your Traditional Score for a comprehensive view"}
+                        </p>
+                        <button 
+                            className="prompt-button"
+                            onClick={() => navigate(showSpendScorePrompt ? '/spend-score' : '/traditional-score')}
+                        >
+                            Calculate {showSpendScorePrompt ? "SpendScore™" : "Traditional Score"}
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );

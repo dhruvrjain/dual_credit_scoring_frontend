@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import './CheckTraditionalScore.css';
 
-function CheckTraditionalScore({score, setScore}) {
+function CheckTraditionalScore({score, setScore, showSpendScorePrompt}) {
     const [formData, setFormData] = useState({
         Num_Bank_Accounts: '',
         Outstanding_Debt: '',
